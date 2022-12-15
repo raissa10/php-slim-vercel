@@ -28,6 +28,13 @@ require __DIR__ . '/../vendor/autoload.php';
 
 date_default_timezone_set('America/Maceio');
 
+require_once "lib/slim/autoload.php";
+require_once("core/Utils.php");
+
+require_once("controllers/ControllerApiBase.php");
+require_once("controllers/ControllerApiUsuario.php");
+require_once("controllers/ControllerApiSistema.php");
+
 class Routes {
     
     public function __construct()
