@@ -12,7 +12,7 @@ use TelegramBot\Api\BotApi;
 require_once("ControllerApiBase.php");
 require_once("ControllerApiTelegram.php");
 
-require_once("./lib/bottelegram/vendor/autoload.php");
+require_once("./lib/bottelegram/vendor-bot-telegram/autoload.php");
 
 //require __DIR__ . '/../../vendor/autoload.php';
 
