@@ -3,6 +3,6 @@
     "php": "^7.4"
   },
   "scripts": {
-    "dev": "php -S localhost:8080 -t api api/api.php"
+    "dev": "php -S localhost:8080 -t api api/index.php"
   }
 }
