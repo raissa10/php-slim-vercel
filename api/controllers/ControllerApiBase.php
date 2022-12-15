@@ -34,7 +34,7 @@ class ControllerApiBase {
     // TOKEN GELVAZIO
     // const TELEGRAM_BOT_TOKEN = '5887064892:AAE4TKkPpM8t6DFdqokWkSqXB-iItLk9TKU';
 
-    const TELEGRAM_BOT_TOKEN = 'COLOCAR SEU TOKEN_AQUI!!!';
+    const TELEGRAM_BOT_TOKEN = '5824229321:AAHOsgrwq1K_PfZa6ymxv-H-OSnB__KnTUg';
 
     // TOKEN BOT ALEX
     // const TELEGRAM_BOT_TOKEN = '5362336257:AAHR6gjMXofy8kc8bjeO2NZzj3gcqsmtzjQ';

@@ -32,7 +32,7 @@ class ControllerApiTelegram extends ControllerApiBase {
         return $oBotApi->sendMessage($telegram_chat_id, $message);
     }
 
-    public static function sendMessage($message, $telegram_chat_id = 9999999){
+    public static function sendMessage($message, $telegram_chat_id = 5401891604){
         // instancia do bot com o token gerado
         $oBotApi = new BotApi(self::TELEGRAM_BOT_TOKEN);
         
@@ -56,7 +56,7 @@ class ControllerApiTelegram extends ControllerApiBase {
         $json = json_encode($json);
     
         // updates
-        $endpoint = "https://api.telegram.org/bot" . self::TELEGRAM_BOT_TOKEN . "/getUpdates";
+        $endpoint = "https://api.telegram.org/bot5824229321:AAHOsgrwq1K_PfZa6ymxv-H-OSnB__KnTUg" . self::TELEGRAM_BOT_TOKEN . "/getUpdates";
     
         // envia mensagem
         //$endpoint = 'http://localhost/bot-telegram-sistema-sus/api.php?m=' + message;
