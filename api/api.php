@@ -9,9 +9,7 @@ require_once "lib/slim/autoload.php";
 require_once("core/Utils.php");
 
 require_once("controllers/ControllerApiBase.php");
-require_once("controllers/ControllerApiUsuario.php");
 require_once("controllers/ControllerApiTelegram.php");
-
 require_once("controllers/ControllerEtapaTelegram.php");
 
 class Routes {
