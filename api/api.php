@@ -1,4 +1,5 @@
 <?php
+date_default_timezone_set('America/Maceio');
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -26,7 +27,6 @@ require __DIR__ . '/../vendor/autoload.php';
 //
 // $app->run();
 
-date_default_timezone_set('America/Maceio');
 
 class Routes {
     
