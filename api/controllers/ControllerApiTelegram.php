@@ -13,8 +13,6 @@ require_once("ControllerApiBase.php");
 
 require_once("autoload.php");
 
-//require __DIR__ . '/../../vendor/autoload.php';
-
 class ControllerApiTelegram extends ControllerApiBase {
 
     /**
