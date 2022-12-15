@@ -46,24 +46,6 @@ class Routes {
             // Ping
             $app->get('/ping', ControllerApiBase::class . ':callPing');
             
-            // Lista todos os usuarios
-            $app->get('/users/all', ControllerApiUsuario::class . ':getUsuario');
-            
-            // Gravar um usuario
-            $app->post('/users/store', ControllerApiUsuario::class . ':gravaUsuario');
-            
-            // Login do usuario
-            $app->post('/users/login', ControllerApiUsuario::class . ':loginUsuario');
-            
-            // Login via cpf
-            $app->post('/users/logincpf', ControllerApiUsuario::class . ':loginUsuarioPorCpf');
-            
-            // Validacao usuario telegram
-            $app->post('/users/valida_id_telegram', ControllerApiUsuario::class . ':validaIdTelegram');
-            
-            // Valida cpf usuario
-            $app->post('/users/valida_cpf_telegram', ControllerApiUsuario::class . ':validaCpfTelegram');
-            
             // update bot
             $app->post('/users/updatebot', ControllerEtapaTelegram::class . ':updatechatbot');
             $app->get('/users/updates', ControllerEtapaTelegram::class . ':getUpdates');
@@ -73,9 +55,6 @@ class Routes {
             $app->post('/setwebhook', ControllerEtapaTelegram::class . ':setWebhook');
             $app->post('/removewebhook', ControllerEtapaTelegram::class . ':removeWebhook');
             $app->post('/getwebhook', ControllerEtapaTelegram::class . ':getWebhookInfo');
-            
-            // Atendimentos
-            $app->get('/atendimentos', ControllerEtapaTelegram::class . ':getAtendimentos');
             
         })->add($this->getMiddlewares());
         
