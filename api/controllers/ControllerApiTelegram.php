@@ -24,14 +24,8 @@ class ControllerApiTelegram extends ControllerApiBase {
      * @throws \TelegramBot\Api\Exception
      * @throws \TelegramBot\Api\InvalidArgumentException
      */
-    public static function sendMessageGelvazio($message, $telegram_chat_id = 5455911022){
-        // instancia do bot com o token gerado
-        $oBotApi = new BotApi(self::TELEGRAM_BOT_TOKEN);
-
-        // envia a mensagem para o telegram
-        return $oBotApi->sendMessage($telegram_chat_id, $message);
-    }
-
+                                                                            
+     // 1868084147                                                   5401891604
     public static function sendMessage($message, $telegram_chat_id = 5401891604){
         // instancia do bot com o token gerado
         $oBotApi = new BotApi(self::TELEGRAM_BOT_TOKEN);
