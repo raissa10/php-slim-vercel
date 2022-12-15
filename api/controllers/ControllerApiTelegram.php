@@ -11,7 +11,7 @@ use TelegramBot\Api\BotApi;
 
 require_once("ControllerApiBase.php");
 
-require_once(__DIR__ . "/lib/bottelegram/autoload.php");
+require_once("autoload.php");
 
 //require __DIR__ . '/../../vendor/autoload.php';
 
