@@ -30,9 +30,11 @@ $app->get('/testbot/', function (Request $request, Response $response, array $ar
     
     $aDadosChat = ControllerApiTelegram::sendMessage("Informe seu CPF para iniciar a conversa! Senac - Testes");
     
-    $data = array("Data Sistema" => date("Y-m-d H:i:s"), "chat" => $aDadosChat);
+    $aDadosRetorno = array("Data Sistema" => date("Y-m-d H:i:s"), "chat" => $aDadosChat);
     
-    return $response->withJson($data, 200);
+    $aDadosRetorno = json_encode($aDadosRetorno);
+    
+    $response->getBody()->write($aDadosRetorno);
 });
 
 $app->run();
