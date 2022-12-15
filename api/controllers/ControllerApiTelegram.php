@@ -10,7 +10,6 @@ use Psr\Http\Message\ResponseInterface as Response;
 use TelegramBot\Api\BotApi;
 
 require_once("ControllerApiBase.php");
-require_once("ControllerApiTelegram.php");
 
 require_once(__DIR__ . "/lib/bottelegram/autoload.php");
 
