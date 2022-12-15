@@ -42,7 +42,9 @@ class Routes {
      */
     protected function runApp()
     {
-        $app = new \Slim\App($this->getConfigurationContainer());
+        // $app = new \Slim\App($this->getConfigurationContainer());
+    
+        $app = AppFactory::create();
         
         $app->add(function ($req, $res, $next) {
             $response = $next($req, $res);
