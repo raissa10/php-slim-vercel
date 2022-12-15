@@ -1,37 +1,22 @@
 <?php
+
 date_default_timezone_set('America/Maceio');
 
+use \Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
-use Slim\Factory\AppFactory;
 
-require __DIR__ . '/../vendor/autoload.php';
+require_once "lib/slim/autoload.php";
+require_once("core/Utils.php");
 
-// $app = AppFactory::create();
-//
-// $app->get('/hello/{name}', function (Request $request, Response $response, array $args) {
-//     $name = $args['name'];
-//     $response->getBody()->write("Hello, $name");
-//     return $response;
-// });
-//
-// $app->get('/hello/', function (Request $request, Response $response, array $args) {
-//     $response->getBody()->write("Hello World!");
-//     return $response;
-// });
-//
-// $app->get('/', function (Request $request, Response $response, array $args) {
-//     $response->getBody()->write("Index!");
-//     return $response;
-// });
-//
-// $app->run();
+require_once("controllers/ControllerApiBase.php");
+require_once("controllers/ControllerApiUsuario.php");
+require_once("controllers/ControllerApiTelegram.php");
 
+require_once("controllers/ControllerEtapaTelegram.php");
 
 class Routes {
     
-    public function __construct()
-    {
+    public function __construct() {
         $this->runApp();
     }
     
@@ -40,11 +25,8 @@ class Routes {
      *
      * @throws Throwable
      */
-    protected function runApp()
-    {
-        // $app = new \Slim\App($this->getConfigurationContainer());
-    
-        $app = AppFactory::create();
+    protected function runApp() {
+        $app = new \Slim\App($this->getConfigurationContainer());
         
         $app->add(function ($req, $res, $next) {
             $response = $next($req, $res);
@@ -53,7 +35,7 @@ class Routes {
                 // Aceita todas as origens
                 ->withHeader('Access-Control-Allow-Origin', '*')
                 // Aceita somente os atributos headers desta lista abaixo
-                ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization, apikey')
+                ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization, apikey, x-api-key-system')
                 // Aceita apenas os metodos abaixo
                 ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
         });
@@ -65,58 +47,42 @@ class Routes {
             
             // Ping
             $app->get('/ping', ControllerApiBase::class . ':callPing');
-            $app->post('/ping', ControllerApiBase::class . ':callPing');
             
-            // Folhas de pagamento
-            $app->get('/folha', ControllerApiFolhaPagamento::class . ':index');
-            $app->get('/folhadetalhe/{codigofolha}', ControllerApiFolhaPagamento::class . ':detalhaFolha');
+            // Lista todos os usuarios
+            $app->get('/users/all', ControllerApiUsuario::class . ':getUsuario');
             
-            // Cadastros - Usuarios
-            $app->post('/login', ControllerApiUsuario::class . ':loginUsuario');
-            $app->post('/users', ControllerApiUsuario::class . ':gravaUsuario');
-            $app->delete('/users', ControllerApiUsuario::class . ':deleteUsuario');
+            // Gravar um usuario
+            $app->post('/users/store', ControllerApiUsuario::class . ':gravaUsuario');
             
-            $app->get('/users', ControllerApiUsuario::class . ':getUsuario');
+            // Login do usuario
+            $app->post('/users/login', ControllerApiUsuario::class . ':loginUsuario');
             
-            $app->put('/updatepassword', ControllerApiUsuario::class . ':updatePassword');
-            $app->post('/resetpassword', ControllerApiUsuario::class . ':resetPassword');
+            // Login via cpf
+            $app->post('/users/logincpf', ControllerApiUsuario::class . ':loginUsuarioPorCpf');
             
-            // AULA 01-12-2022
-            // Pagina inicial da api
-            $app->get('/sistema', ControllerApiSistema::class . ':callPing');
+            // Validacao usuario telegram
+            $app->post('/users/valida_id_telegram', ControllerApiUsuario::class . ':validaIdTelegram');
             
-            $app->get('/usuario', ControllerApiSistema::class . ':getUsuario');
+            // Valida cpf usuario
+            $app->post('/users/valida_cpf_telegram', ControllerApiUsuario::class . ':validaCpfTelegram');
             
-            $app->get('/pessoa', ControllerApiSistema::class . ':getPessoa');
-            $app->get('/produto', ControllerApiSistema::class . ':getProduto');
+            // update bot
+            $app->post('/users/updatebot', ControllerEtapaTelegram::class . ':updatechatbot');
+            $app->get('/users/updates', ControllerEtapaTelegram::class . ':getUpdates');
             
+            // Webhook
+            $app->post('/webhook', ControllerEtapaTelegram::class . ':getWebhook');
+            $app->post('/setwebhook', ControllerEtapaTelegram::class . ':setWebhook');
+            $app->post('/removewebhook', ControllerEtapaTelegram::class . ':removeWebhook');
+            $app->post('/getwebhook', ControllerEtapaTelegram::class . ':getWebhookInfo');
             
-            // AULA 12-12-2022
-            // Consultas com filtros
-            $app->post('/consultausuario', ControllerApiSistema::class . ':getConsultaUsuario');
-            
-            // Consulta com Filtros feita na aula...
-            $app->post('/consultausuariofiltro', ControllerApiSistema::class . ':getConsultaUsuarioFiltro');
-            
-            // AULA 13-12-2022 - Ações da Consulta
-            // Excluir Usuário
-            $app->post('/excluirusuario', ControllerApiSistema::class . ':excluirUsuario');
-            
-            // Alterar Usuário
-            $app->post('/executaalteracao', ControllerApiSistema::class . ':alterarUsuario');
-            
-            // Incluir Usuario
-            $app->post('/executainclusao', ControllerApiSistema::class . ':incluirUsuario');
-            
-            // Auxilios
-            $app->post('/auxilios', ControllerApiAuxilioEmergencial::class . ':getAuxilios');
-            
+            // Atendimentos
+            $app->get('/atendimentos', ControllerEtapaTelegram::class . ':getAtendimentos');
             
         })->add($this->getMiddlewares());
         
         $app->run();
     }
-    
     
     /**
      * Retorna a configuração das rotas
@@ -149,6 +115,24 @@ class Routes {
             
             $headers = $request->getHeaders();
             
+            // if(isset($headers["HTTP_APIKEY"]) && is_array($headers["HTTP_APIKEY"])){
+            //     $token = $headers["HTTP_APIKEY"][0];
+            //     if (trim($token) == "") {
+            //         $data = array("message" => "Acesso inválido - TOKEN - Envio:" . $token);
+            //         return $response->withJson($data, 401);
+            //     }
+            //
+            //     // Verifica se esse token de usuario existe
+            //     if (!Routes::isValidTokenUsuario($token)) {
+            //         $data = array("message" => "Token inválido", "token informado:" => $token);
+            //         return $response->withJson($data, 401);
+            //     }
+            //
+            // } else {
+            //     $data = array("message" => "Token inválido!");
+            //     return $response->withJson($data, 401);
+            // }
+            
             $response = $next($request, $response);
             
             return $response;
@@ -157,6 +141,21 @@ class Routes {
         return $Middlware;
     }
     
+    public static function isValidTokenUsuario($token) {
+        require_once("core/Query.php");
+        $oQuery = new Query();
+        
+        $aDados = $oQuery->select("select usutoken as token
+                                     from tbusuario
+                                    where tbusuario.usutoken = '$token'
+                                      and coalesce(tbusuario.usuativo, 0) = 1");
+        
+        if (!$aDados) {
+            return false;
+        }
+        
+        return true;
+    }
 }
 
 $routes = new Routes();
