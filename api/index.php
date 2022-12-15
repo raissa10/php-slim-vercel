@@ -24,4 +24,16 @@ $app->get('/', function (Request $request, Response $response, array $args) {
     return $response;
 });
 
+$app->get('/testbot/', function (Request $request, Response $response, array $args) {
+    
+    
+    require_once ("controllers/ControllerApiTelegram.php");
+    
+    ControllerApiTelegram::sendMessage("Informe seu CPF para iniciar a conversa! Senac - Testes");
+    
+    $response->getBody()->write("Teste Bot Telegram");
+    
+    return $response;
+});
+
 $app->run();
