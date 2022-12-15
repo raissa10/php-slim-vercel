@@ -26,14 +26,13 @@ $app->get('/', function (Request $request, Response $response, array $args) {
 
 $app->get('/testbot/', function (Request $request, Response $response, array $args) {
     
-    
     require_once ("controllers/ControllerApiTelegram.php");
     
-    ControllerApiTelegram::sendMessage("Informe seu CPF para iniciar a conversa! Senac - Testes");
+    $aDadosChat = ControllerApiTelegram::sendMessage("Informe seu CPF para iniciar a conversa! Senac - Testes");
     
-    $response->getBody()->write("Teste Bot Telegram");
+    $data = array("Data Sistema" => date("Y-m-d H:i:s"), "chat" => $aDadosChat);
     
-    return $response;
+    return $response->withJson($data, 200);
 });
 
 $app->run();
